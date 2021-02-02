@@ -42,6 +42,12 @@ public class JogadorResource {
 		JogadorDTO dto = jogadorService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
+	
+	@GetMapping(value = "/email/{email}")
+	public ResponseEntity<JogadorDTO> findByEmail(@RequestParam String email){
+		JogadorDTO dto = jogadorService.findByEmail(email);
+		return ResponseEntity.ok().body(dto);
+	}
 
 	@PostMapping
 	public ResponseEntity<JogadorDTO> insert(@RequestBody JogadorDTO dto) {

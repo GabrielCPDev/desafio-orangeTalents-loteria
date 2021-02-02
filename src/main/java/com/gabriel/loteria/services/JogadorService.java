@@ -58,4 +58,10 @@ public class JogadorService {
 
 		return list.map(x -> new JogadorDTO(x));
 	}
+
+	public JogadorDTO findByEmail(String email) {
+		Optional<Jogador> obj = jogadorRepository.findByEmail(email);
+		Jogador entity = obj.orElseThrow(() -> new IllegalArgumentException("Entity not found"));
+		return new JogadorDTO(entity,entity.getApostas());
+	}
 }
