@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.FutureOrPresent;
 
 @Entity
 @Table(name = "tb_sorteios")
@@ -18,6 +19,7 @@ public class Sorteio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual")
 	private Date dataSorteio;
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Bilhete> apostas;

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tb_bilhetes")
@@ -24,6 +25,7 @@ public class Bilhete implements Serializable {
 	private Long id;
 	private Instant dataAposta = Instant.now();
 	
+	@NotBlank(message = "Campo obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "jogador_id")
 	private Jogador jogador;
