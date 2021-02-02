@@ -25,20 +25,31 @@ public class JogadorService {
 	@Autowired
 	private BilheteRepository bilheteRepository;
 
-	
 	@Transactional
 	public JogadorDTO findById(Long id) {
 		Optional<Jogador> obj = jogadorRepository.findById(id);
 		Jogador entity = obj.orElseThrow(() -> new IllegalArgumentException("Entity not found"));
-		return new JogadorDTO(entity,entity.getApostas());
+		return new JogadorDTO(entity, entity.getApostas());
 	}
-	
+
 	@Transactional
-	public JogadorDTO insert (JogadorDTO dto) {
+	public JogadorDTO insert(JogadorDTO dto) {
 		Jogador entity = new Jogador();
 		copyDtoToEntity(dto, entity);
 		entity = jogadorRepository.save(entity);
 		return new JogadorDTO(entity);
+	}
+
+	public Page<JogadorDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Jogador> list = jogadorRepository.findAll(pageRequest);
+
+		return list.map(x -> new JogadorDTO(x));
+	}
+
+	public JogadorDTO findByEmail(String email) {
+		Optional<Jogador> obj = jogadorRepository.findByEmail(email);
+		Jogador entity = obj.orElseThrow(() -> new IllegalArgumentException("Entity not found"));
+		return new JogadorDTO(entity, entity.getApostas());
 	}
 
 	private void copyDtoToEntity(JogadorDTO dto, Jogador entity) {
@@ -53,15 +64,4 @@ public class JogadorService {
 		}
 	}
 
-	public Page<JogadorDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Jogador> list = jogadorRepository.findAll(pageRequest);
-
-		return list.map(x -> new JogadorDTO(x));
-	}
-
-	public JogadorDTO findByEmail(String email) {
-		Optional<Jogador> obj = jogadorRepository.findByEmail(email);
-		Jogador entity = obj.orElseThrow(() -> new IllegalArgumentException("Entity not found"));
-		return new JogadorDTO(entity,entity.getApostas());
-	}
 }

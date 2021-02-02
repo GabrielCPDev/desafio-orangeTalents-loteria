@@ -19,41 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gabriel.loteria.dto.JogadorDTO;
+import com.gabriel.loteria.dto.SorteioDTO;
 import com.gabriel.loteria.services.JogadorService;
+import com.gabriel.loteria.services.SorteioService;
 
 @RestController
-@RequestMapping(value = "/jogadores")
-public class JogadorResource {
+@RequestMapping(value = "/sorteios")
+public class SorteioResource {
 
 	@Autowired
-	private JogadorService jogadorService;
+	private SorteioService sorteioService;
 
 	@GetMapping
-	public ResponseEntity<Page<JogadorDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+	public ResponseEntity<Page<SorteioDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction));
 
-		Page<JogadorDTO> list = jogadorService.findAllPaged(pageRequest);
+		Page<SorteioDTO> list = sorteioService.findAllPaged(pageRequest);
 
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<JogadorDTO> findById(@PathVariable Long id) {
-		JogadorDTO dto = jogadorService.findById(id);
+	public ResponseEntity<SorteioDTO> findById(@PathVariable Long id) {
+		SorteioDTO dto = sorteioService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 	
-	@GetMapping(value = "/email/{email}")
-	public ResponseEntity<JogadorDTO> findByEmail(@PathVariable String email){
-		JogadorDTO dto = jogadorService.findByEmail(email);
-		return ResponseEntity.ok().body(dto);
-	}
-
 	@PostMapping
-	public ResponseEntity<JogadorDTO> insert(@Valid @RequestBody JogadorDTO dto) {
-		dto = jogadorService.insert(dto);
+	public ResponseEntity<SorteioDTO> insert(@RequestBody SorteioDTO dto) {
+		dto = sorteioService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}

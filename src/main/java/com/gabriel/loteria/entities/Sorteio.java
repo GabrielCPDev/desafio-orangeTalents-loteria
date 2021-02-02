@@ -1,8 +1,12 @@
 package com.gabriel.loteria.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,15 +24,18 @@ public class Sorteio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual")
-	private Date dataSorteio;
+	private LocalDate dataSorteio;
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Bilhete> apostas;
+	
+	@ElementCollection
+	private Set<Integer> numerosSorteados = new HashSet<>();
 	
 	public Sorteio () {
 		
 	}
 
-	public Sorteio(Long id, Date dataSorteio) {
+	public Sorteio(Long id, LocalDate dataSorteio) {
 		super();
 		this.id = id;
 		this.dataSorteio = dataSorteio;
@@ -42,11 +49,11 @@ public class Sorteio {
 		this.id = id;
 	}
 
-	public Date getDataSorteio() {
+	public LocalDate getDataSorteio() {
 		return dataSorteio;
 	}
 
-	public void setDataSorteio(Date dataSorteio) {
+	public void setDataSorteio(LocalDate dataSorteio) {
 		this.dataSorteio = dataSorteio;
 	}
 
@@ -56,6 +63,14 @@ public class Sorteio {
 
 	public void setApostas(List<Bilhete> apostas) {
 		this.apostas = apostas;
+	}
+
+	public Set<Integer> getNumerosSorteados() {
+		return numerosSorteados;
+	}
+
+	public void setNumerosSorteados(Set<Integer> numerosSorteados) {
+		this.numerosSorteados = numerosSorteados;
 	}
 
 	@Override

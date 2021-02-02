@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
 import com.gabriel.loteria.entities.Bilhete;
@@ -16,7 +15,6 @@ public class JogadorDTO implements Serializable {
 	private Long id;
 	private String name;
 	@NotBlank(message = "Campo obrigatório")
-	@Column(unique = true)
 	private String email;
 
 	private List<BilheteDTO> bilhetes = new ArrayList<>();

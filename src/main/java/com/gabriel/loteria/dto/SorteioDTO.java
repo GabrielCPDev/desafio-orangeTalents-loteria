@@ -2,6 +2,8 @@ package com.gabriel.loteria.dto;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +17,10 @@ public class SorteioDTO implements Serializable{
 	
 	private Long id;
 	@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual")
-	private Date dataSorteio;
+	private LocalDate dataSorteio;
+	
+	
+	private Set<Integer> numerosSorteados = new HashSet<>();
 	
 	private List<BilheteDTO> apostas;
 	
@@ -24,7 +29,7 @@ public class SorteioDTO implements Serializable{
 	}
 
 	public SorteioDTO(Long id,
-			@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual") Date dataSorteio) {
+			@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual") LocalDate dataSorteio) {
 		super();
 		this.id = id;
 		this.dataSorteio = dataSorteio;
@@ -34,6 +39,11 @@ public class SorteioDTO implements Serializable{
 		this.id = entity.getId();
 		this.dataSorteio = entity.getDataSorteio();
 	}
+	public SorteioDTO(Sorteio entity, List<Integer> list) {
+		this(entity);
+		list.forEach(numero -> this.numerosSorteados.add(numero));
+	}
+
 	
 	public SorteioDTO(Sorteio entity, Set<Bilhete> bilhetes){
 		this(entity);
@@ -48,11 +58,11 @@ public class SorteioDTO implements Serializable{
 		this.id = id;
 	}
 
-	public Date getDataSorteio() {
+	public LocalDate getDataSorteio() {
 		return dataSorteio;
 	}
 
-	public void setDataSorteio(Date dataSorteio) {
+	public void setDataSorteio(LocalDate dataSorteio) {
 		this.dataSorteio = dataSorteio;
 	}
 
