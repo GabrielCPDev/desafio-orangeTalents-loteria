@@ -12,15 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.gabriel.loteria.dto.JogadorDTO;
 import com.gabriel.loteria.dto.SorteioDTO;
-import com.gabriel.loteria.services.JogadorService;
 import com.gabriel.loteria.services.SorteioService;
 
 @RestController
@@ -52,6 +51,12 @@ public class SorteioResource {
 		dto = sorteioService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
+	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<SorteioDTO> update(@PathVariable Long id,@RequestParam(value = "numerosParaSorteio", defaultValue = "6") Integer quantidadeDeNumeros, @Valid @RequestBody SorteioDTO dto) {
+		dto = sorteioService.update(id, quantidadeDeNumeros, dto);
+		return ResponseEntity.ok().body(dto);
 	}
 
 }

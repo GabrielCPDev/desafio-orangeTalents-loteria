@@ -1,8 +1,6 @@
 package com.gabriel.loteria.services;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
@@ -51,11 +49,21 @@ public class SorteioService {
 	}
 
 	@Transactional
-	public SorteioDTO update(Long id, SorteioDTO dto) {
+	public SorteioDTO update(Long id, Integer quantidadeDeNumeros, SorteioDTO dto) {
+		LocalDate agora = LocalDate.now();
+
 		try {
+
 			Sorteio entity = repository.getOne(id);
-			entity.setDataSorteio(dto.getDataSorteio());
-			entity = repository.save(entity);
+
+			if (dto.getDataSorteio().equals(agora)) {
+				entity.setNumerosSorteados(sortearNumeros(quantidadeDeNumeros));
+				
+				entity.setDataSorteio(dto.getDataSorteio());
+				entity = repository.save(entity);
+			}
+
+			
 			return new SorteioDTO(entity);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("Id not found: " + id);
@@ -72,10 +80,10 @@ public class SorteioService {
 			throw new DataIntegrityViolationException("Integrity violation");
 		}
 	}
-	
-	public Set<Integer> sortearNumeros(Integer quantidadeDeNumeros){
-		Set<Integer> numerosSorteados =  new HashSet<>();
-		for(int i = 0 ; i < quantidadeDeNumeros ; i++) {
+
+	public Set<Integer> sortearNumeros(Integer quantidadeDeNumeros) {
+		Set<Integer> numerosSorteados = new HashSet<>();
+		for (int i = 0; i < quantidadeDeNumeros; i++) {
 			Random gerador = new Random();
 			Integer numeroGerado = gerador.nextInt(61);
 			numerosSorteados.add(numeroGerado);
