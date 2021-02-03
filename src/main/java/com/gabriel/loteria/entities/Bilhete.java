@@ -5,8 +5,10 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +28,7 @@ public class Bilhete implements Serializable {
 	private Instant dataAposta = Instant.now();
 	
 	@NotBlank(message = "Campo obrigatório")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "jogador_id")
 	private Jogador jogador;
 	private Integer numeroSorteio;

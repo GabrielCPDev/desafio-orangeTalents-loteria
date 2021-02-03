@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_jogadores")
 public class Jogador implements Serializable{
@@ -27,6 +29,7 @@ public class Jogador implements Serializable{
 	@Column(unique = true)
 	private String email;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jogador")
 	private List<Bilhete> apostas = new ArrayList<>();
 	

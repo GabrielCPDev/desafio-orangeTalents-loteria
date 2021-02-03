@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.gabriel.loteria.dto.SorteioDTO;
+import com.gabriel.loteria.services.BilheteService;
 import com.gabriel.loteria.services.SorteioService;
 
 @RestController
@@ -28,6 +29,8 @@ public class SorteioResource {
 
 	@Autowired
 	private SorteioService sorteioService;
+	@Autowired
+	private BilheteService bilheteService;
 
 	@GetMapping
 	public ResponseEntity<Page<SorteioDTO>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -43,6 +46,7 @@ public class SorteioResource {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<SorteioDTO> findById(@PathVariable Long id) {
 		SorteioDTO dto = sorteioService.findById(id);
+		
 		return ResponseEntity.ok().body(dto);
 	}
 	

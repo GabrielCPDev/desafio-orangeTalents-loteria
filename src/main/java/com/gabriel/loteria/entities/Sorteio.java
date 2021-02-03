@@ -1,6 +1,5 @@
 package com.gabriel.loteria.entities;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +23,7 @@ public class Sorteio {
 	private Long id;
 	@FutureOrPresent(message = "A data do sorteio não pode ser inferior ao dia atual")
 	private LocalDate dataSorteio;
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany
 	private List<Bilhete> apostas;
 	
 	@ElementCollection
